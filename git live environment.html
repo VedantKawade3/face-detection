@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Project Simulation</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #1e1e1e;
+            color: #00ff00;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #ffffff;
+        }
+
+        #terminal {
+            background-color: #000000;
+            width: 90%;
+            max-width: 800px;
+            height: 500px;
+            overflow-y: auto;
+            border-radius: 5px;
+            padding: 10px;
+            color: #00ff00;
+            margin-top: 20px;
+            text-align: left;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .command-line {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        #answer {
+            background: none;
+            border: none;
+            outline: none;
+            color: #00ff00;
+            font-family: inherit;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        #feedback {
+            color: #ff5555;
+            margin-top: 5px;
+        }
+
+        #start-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #00ff00;
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #start-button:hover {
+            background-color: #44ff44;
+        }
+    </style>
+</head>
+<body>
+    <h1>Git Project Simulation</h1>
+    <button id="start-button" onclick="startProject()">Start Project</button>
+
+    <div id="terminal">
+        <div id="output"></div>
+        <div class="command-line">
+            <span>$ </span>
+            <input type="text" id="answer" autocomplete="off" placeholder="Type your command here..." onkeydown="handleEnter(event)" disabled>
+        </div>
+        <p id="feedback"></p>
+    </div>
+
+    <script>
+        // Define multiple project workflows, each with a set of Git commands
+        const projectScenarios = [
+            [
+                { step: "Initialize a new Git repository.", command: "git init" },
+                { step: "Add a README file to the staging area.", command: "git add README.md" },
+                { step: "Commit the README file with a message 'Initial commit'.", command: "git commit -m 'Initial commit'" },
+                { step: "Create a new branch named 'feature'.", command: "git branch feature" },
+                { step: "Switch to the 'feature' branch.", command: "git checkout feature" },
+                { step: "Create a new file named 'feature.txt' and add it to staging.", command: "git add feature.txt" },
+                { step: "Commit the 'feature.txt' file with a message 'Add feature file'.", command: "git commit -m 'Add feature file'" },
+                { step: "Switch back to the 'main' branch.", command: "git checkout main" },
+                { step: "Merge the 'feature' branch into 'main'.", command: "git merge feature" },
+                { step: "Push your changes to the remote repository (assume 'origin' remote).", command: "git push origin main" }
+            ],
+            [
+                { step: "Initialize a new Git repository.", command: "git init" },
+                { step: "Create a new file 'index.html' and add it to staging.", command: "git add index.html" },
+                { step: "Commit the file with message 'Add index.html'.", command: "git commit -m 'Add index.html'" },
+                { step: "Create a new branch named 'develop'.", command: "git branch develop" },
+                { step: "Switch to the 'develop' branch.", command: "git checkout develop" },
+                { step: "Edit 'index.html' and stage changes.", command: "git add index.html" },
+                { step: "Commit changes with message 'Update index.html'.", command: "git commit -m 'Update index.html'" },
+                { step: "Rebase 'develop' onto 'main'.", command: "git rebase main" },
+                { step: "Switch back to the 'main' branch.", command: "git checkout main" },
+                { step: "Push changes to 'origin'.", command: "git push origin main" }
+            ],
+            // More projects can be added here
+        ];
+
+        let currentProject = [];
+        let currentStep = 0;
+
+        function startProject() {
+            document.getElementById("start-button").style.display = "none";
+            document.getElementById("answer").disabled = false;
+            selectRandomProject();
+            showStep();
+        }
+
+        function selectRandomProject() {
+            // Randomly select a project scenario each time
+            currentProject = projectScenarios[Math.floor(Math.random() * projectScenarios.length)];
+        }
+
+        function showStep() {
+            if (currentStep < currentProject.length) {
+                displayOutput(`Step ${currentStep + 1}: ${currentProject[currentStep].step}`);
+                document.getElementById("feedback").textContent = "";
+                document.getElementById("answer").value = "";
+                document.getElementById("answer").focus();
+            } else {
+                displayOutput("🎉 Congratulations! You've completed the project simulation. 🎉");
+                document.getElementById("answer").disabled = true;
+            }
+        }
+
+        function displayOutput(text) {
+            const outputDiv = document.getElementById("output");
+            const newLine = document.createElement("div");
+            newLine.textContent = `$ ${text}`;
+            outputDiv.appendChild(newLine);
+            outputDiv.scrollTop = outputDiv.scrollHeight; // Auto-scroll to the latest output
+        }
+
+        function handleEnter(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                checkCommand();
+            }
+        }
+
+        function checkCommand() {
+            const userCommand = document.getElementById("answer").value.trim();
+            const correctCommand = currentProject[currentStep].command;
+
+            if (userCommand.toLowerCase() === correctCommand.toLowerCase()) {
+                displayOutput(userCommand);
+                displayOutput("✔ Correct command!");
+                currentStep++;
+                setTimeout(showStep, 1500); // Move to next step after a delay
+            } else {
+                document.getElementById("feedback").textContent = "❌ Incorrect command. Try again!";
+            }
+        }
+    </script>
+</body>
+</html>

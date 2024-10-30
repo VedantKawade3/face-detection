@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Commands</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: monospace, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: white;
+            text-align: center;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        #theme-toggle {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        h1 {
+            margin-top: 50px;
+        }
+
+        .option-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            background-color: #333;
+            color: #fff;
+        }
+
+        button:hover {
+            background-color: #444;
+        }
+
+        #terminal {
+            background-color: #1e1e1e;
+            color: #00ff00;
+            font-family: monospace;
+            text-align: left;
+            padding: 20px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 800px;
+            height: 400px;
+            overflow-y: auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .command-line {
+            display: flex;
+            align-items: center;
+        }
+
+        #answer {
+            background: none;
+            border: none;
+            outline: none;
+            color: #00ff00;
+            font-family: inherit;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        #quiz-section {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="theme-toggle" onclick="toggleTheme()">🌙</div>
+    <h1>Git Commands practice</h1>
+    <div class="option-container">
+        <button onclick="startQuiz('setup')">SETUP</button>
+        <button onclick="startQuiz('setup-init')">SETUP & INIT</button>
+        <button onclick="startQuiz('stage-snapshot')">STAGE & SNAPSHOT</button>
+        <button onclick="startQuiz('branch-merge')">BRANCH & MERGE</button>
+        <button onclick="startQuiz('inspect-compare')">INSPECT & COMPARE</button>
+        <button onclick="startQuiz('tracking-path')">TRACKING PATH CHANGES</button>
+        <button onclick="startQuiz('ignoring-patterns')">IGNORING PATTERNS</button>
+        <button onclick="startQuiz('share-update')">SHARE & UPDATE</button>
+        <button onclick="startQuiz('rewrite-history')">REWRITE HISTORY</button>
+        <button onclick="startQuiz('temporary-commits')">TEMPORARY COMMITS</button>
+        <footer>
+            &copy; 2024 Vedant Kawade
+        </footer>
+    </div>
+
+    <div id="quiz-section">
+        <div id="terminal">
+            <div id="output"></div>
+            <div class="command-line">
+                <span style="color: #00ff00;">$ </span>
+                <input type="text" id="answer" autocomplete="off" placeholder="Type your answer here..."
+                    onkeydown="handleEnter(event)">
+            </div>
+        </div>
+        <footer>
+            &copy; 2024 Vedant Kawade
+        </footer>
+    </div>
+
+    <script>
+        const questions = {
+            'setup': [
+                { question: "set a name that is identifiable for credit when review version history", answer: "git config --global user.name “[firstname lastname]”" },
+                { question: "set an email address that will be associated with each history marker", answer: "git config --global user.email “[valid-email]”" },
+                { question: "set automatic command line coloring for Git for easy reviewing", answer: "git config --global color.ui auto" }
+            ],
+            'setup-init': [
+                { question: "initialize an existing directory as a Git repository", answer: "git init" },
+                { question: "retrieve an entire repository from a hosted location via URL", answer: "git clone [url]" }
+            ],
+            'stage-snapshot': [
+                { question: "show modified files in working directory, staged for your next commit", answer: "git status" },
+                { question: "add a file as it looks now to your next commit (stage)", answer: "git add [file]" },
+                { question: "unstage a file while retaining the changes in working directory", answer: "git reset [file]" },
+                { question: "diff of what is changed but not staged", answer: "git diff" },
+                { question: "diff of what is staged but not yet commited", answer: "git diff --staged" },
+                { question: "commit your staged content as a new commit snapshot", answer: "git commit -m “[descriptive message]”" }
+            ],
+            'branch-merge': [
+                { question: "list your branches. a * will appear next to the currently active branch", answer: "git branch" },
+                { question: "create a new branch at the current commit", answer: "git branch [branch-name]" },
+                { question: "switch to another branch and check it out into your working directory", answer: "git checkout" },
+                { question: "merge the specified branch’s history into the current one", answer: "git merge [branch]" },
+                { question: "show all commits in the current branch’s history", answer: "git log" }
+            ],
+            'inspect-compare': [
+                { question: "show the commit history for the currently active branch", answer: "git log" },
+                { question: "show the commits on branchA that are not on branchB", answer: "git log branchB..branchA" },
+                { question: "show the commits that changed file, even across renames", answer: "git log --follow [file]" },
+                { question: "show the diff of what is in branchA that is not in branchB", answer: "git diff branchB...branchA" },
+                { question: "show any object in Git in human-readable format", answer: "git show [SHA]" }
+            ],
+            'tracking-path': [
+                { question: "delete the file from project and stage the removal for commit", answer: "git rm [file]" },
+                { question: "change an existing file path and stage the move", answer: "git mv [existing-path] [new-path]" },
+                { question: "show all commit logs with indication of any paths that moved", answer: "git log --stat -M" }
+            ],
+            'ignoring-patterns': [
+                { question: "Save a file with desired paterns as .gitignore with either direct string matches or wildcard globs.", answer: "logs/\n*.notes\npattern*/" },
+                { question: "system wide ignore patern for all local repositories", answer: "git config --global core.excludesfile [file]" }
+            ],
+            'share-update': [
+                { question: "add a git URL as an alias", answer: "git remote add [alias] [url]" },
+                { question: "fetch down all the branches from that Git remote", answer: "git fetch [alias]" },
+                { question: "merge a remote branch into your current branch to bring it up to date", answer: "git merge [alias]/[branch]" },
+                { question: "Transmit local branch commits to the remote repository branch", answer: "git push [alias] [branch]" },
+                { question: "fetch and merge any commits from the tracking remote branch", answer: "git pull" }
+            ],
+            'rewrite-history': [
+                { question: "apply any commits of current branch ahead of specified one", answer: "git rebase [branch]" },
+                { question: "clear staging area, rewrite working tree from specified commit", answer: "git reset --hard [commit]" }
+            ],
+            'temporary-commits': [
+                { question: "Save modified and staged changes", answer: "git stash" },
+                { question: "list stack-order of stashed file changes", answer: "git stash list" },
+                { question: "write working from top of stash stack", answer: "git stash pop" },
+                { question: "discard the changes from top of stash stack", answer: "git stash drop" }
+            ],
+            // other quiz sections...
+        };
+
+        let currentQuiz = [];
+        let currentQuestionIndex = 0;
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            document.body.classList.toggle('light-theme');
+            const themeIcon = document.getElementById('theme-toggle');
+            themeIcon.textContent = document.body.classList.contains('dark-theme') ? "🌙" : "☀️";
+        }
+
+        function startQuiz(section) {
+            currentQuiz = questions[section];
+            currentQuestionIndex = 0;
+            document.getElementById('quiz-section').style.display = 'block';
+            document.querySelector('.option-container').style.display = 'none';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestionIndex < currentQuiz.length) {
+                displayOutput(`Question: ${currentQuiz[currentQuestionIndex].question}`);
+                document.getElementById('answer').value = '';
+                document.getElementById('answer').focus();
+            } else {
+                endQuiz();
+            }
+        }
+
+        function displayOutput(text) {
+            const outputDiv = document.getElementById('output');
+            const newOutput = document.createElement('div');
+            newOutput.textContent = text;
+            outputDiv.appendChild(newOutput);
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+        }
+
+        function handleEnter(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                checkAnswer();
+            }
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answer').value.trim();
+            const correctAnswer = currentQuiz[currentQuestionIndex].answer;
+            displayOutput(`$ ${userAnswer}`);
+            if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                displayOutput("Correct!");
+            } else {
+                displayOutput(`Incorrect! Correct answer: ${correctAnswer}`);
+            }
+            currentQuestionIndex++;
+            setTimeout(showQuestion, 1500); // Move to next question after a short delay
+        }
+
+        function endQuiz() {
+            displayOutput("Quiz Completed! Well done!");
+            setTimeout(() => location.reload(), 3000); // Restart after 3 seconds
+        }
+
+        // Set the initial theme to dark
+        document.body.classList.add('dark-theme');
+    </script>
+</body>
+
+</html>
