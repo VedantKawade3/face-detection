@@ -87,24 +87,73 @@
             display: none;
         }
 
+        .dark-theme {
+            background-color: #121212;
+            color: white;
+        }
+
+        .light-theme {
+            background-color: #f0f0f0;
+            color: black;
+        }
     </style>
 </head>
 
 <body>
     <div id="theme-toggle" onclick="toggleTheme()">🌙</div>
+    <div style="text-align: left; margin-right: auto; max-width: 1600px;">
+        <h2>Why Every Computer Science Student Should Learn Git and GitHub</h2>
+
+        <p><b>Every computer science student should learn Git and GitHub for several reasons:</b></p>
+
+        <ol>
+            <li><b>Version Control:</b> Git allows students to track changes in their code, making it easier to manage
+                and revert to previous versions.</li>
+
+            <li><b>Collaboration:</b> GitHub enables multiple developers to work on the same project simultaneously,
+                fostering teamwork and better project management.</li>
+
+            <li><b>Industry Standard:</b> Many employers expect familiarity with Git and GitHub, as they are widely used
+                in the software development industry.</li>
+
+            <li><b>Project Showcase:</b> GitHub serves as a portfolio for students to showcase their projects, making it
+                easier to demonstrate skills to potential employers.</li>
+
+            <li><b>Open Source Contribution:</b> Understanding Git allows students to contribute to open-source
+                projects, enhancing their coding skills and community involvement.</li>
+
+            <li><b>Learning Best Practices:</b> Using Git encourages good coding habits, such as writing clear commit
+                messages and organizing code effectively.</li>
+
+            <li><b>Integration with Tools:</b> Many development tools and platforms integrate with Git, providing a
+                seamless workflow for development and deployment.</li>
+        </ol>
+
+        <p>Overall, learning Git and GitHub equips students with essential skills for their future careers in
+            technology.</p>
+    </div>
+    <div>
+        <h2><a href="https://youtu.be/QhqVRuRBA9w?si=9we9-YSmOt4YWuDy">What is Git and Github?</a></h2>
+        <h2>If you want to learn git and github then you can learn from <a
+                href="https://youtube.com/playlist?list=PLu0W_9lII9agwhy658ZPA0MTStKUJTWPi&si=n-uwm-AZPo55d7D6"><b>Here</b></a>
+            or from <a href="https://www.youtube.com/results?search_query=git+and+github+tutorials+in+hindi"><b>Youtube
+                    Tutorials</b></a></h2>
+        <p>Note: any external links provided on this website are used as reference, not for promotional purpose.</p>
+    </div>
+
     <h1>Git Commands practice</h1>
     <div class="option-container">
-        <button onclick="startQuiz('setup')">SETUP</button>
-        <button onclick="startQuiz('setup-init')">SETUP & INIT</button>
-        <button onclick="startQuiz('stage-snapshot')">STAGE & SNAPSHOT</button>
-        <button onclick="startQuiz('branch-merge')">BRANCH & MERGE</button>
-        <button onclick="startQuiz('inspect-compare')">INSPECT & COMPARE</button>
-        <button onclick="startQuiz('tracking-path')">TRACKING PATH CHANGES</button>
-        <button onclick="startQuiz('ignoring-patterns')">IGNORING PATTERNS</button>
-        <button onclick="startQuiz('share-update')">SHARE & UPDATE</button>
-        <button onclick="startQuiz('rewrite-history')">REWRITE HISTORY</button>
-        <button onclick="startQuiz('temporary-commits')">TEMPORARY COMMITS</button>
-        <button onclick="openWebsite()">Live environment projects</button>
+        <button onclick="startQuiz('setup')">1] SETUP</button>
+        <button onclick="startQuiz('setup-init')">2] SETUP & INIT</button>
+        <button onclick="startQuiz('stage-snapshot')">3] STAGE & SNAPSHOT</button>
+        <button onclick="startQuiz('branch-merge')">4] BRANCH & MERGE</button>
+        <button onclick="startQuiz('inspect-compare')">5] INSPECT & COMPARE</button>
+        <button onclick="startQuiz('tracking-path')">6] TRACKING PATH CHANGES</button>
+        <button onclick="startQuiz('ignoring-patterns')">7] IGNORING PATTERNS</button>
+        <button onclick="startQuiz('share-update')">8] SHARE & UPDATE</button>
+        <button onclick="startQuiz('rewrite-history')">9] REWRITE HISTORY</button>
+        <button onclick="startQuiz('temporary-commits')">10] TEMPORARY COMMITS</button>
+        <button onclick="openWebsite()">11] Live environment projects</button>
         <button onclick="showPopup()">Cooming soon.....</button>
         <footer>
             &copy; 2024 Vedant Kawade
@@ -190,8 +239,8 @@
             window.open("git live environment.html", "_blank"); // Replace with the URL of the website you want to open
         }
         function showPopup() {
-        alert("Function is cooming soon....!");
-    }
+            alert("Function is cooming soon....!");
+        }
 
         let currentQuiz = [];
         let currentQuestionIndex = 0;
