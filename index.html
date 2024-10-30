@@ -103,6 +103,8 @@
         <button onclick="startQuiz('share-update')">SHARE & UPDATE</button>
         <button onclick="startQuiz('rewrite-history')">REWRITE HISTORY</button>
         <button onclick="startQuiz('temporary-commits')">TEMPORARY COMMITS</button>
+        <button onclick="openWebsite()">Live environment projects</button>
+        <button onclick="showPopup()">Cooming soon.....</button>
         <footer>
             &copy; 2024 Vedant Kawade
         </footer>
@@ -183,6 +185,11 @@
             ],
             // other quiz sections...
         };
+        function openWebsite() {
+            window.open("https://www.google.com", "_blank"); // Replace with the URL of the website you want to open
+        }
+        function showPopup() {
+        alert("Function is cooming soon....!");
 
         let currentQuiz = [];
         let currentQuestionIndex = 0;
