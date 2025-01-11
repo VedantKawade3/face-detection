@@ -1,6 +1,6 @@
 import cv2
 face_cap = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)  # here 0 is for default camera & for secondary camera you can use 1,2,...
 while True:
     ret, frame = cap.read()
     col = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) 
